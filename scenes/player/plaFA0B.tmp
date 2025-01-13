@@ -1,0 +1,161 @@
+[gd_scene load_steps=13 format=3 uid="uid://b0ps6dfea0igk"]
+
+[ext_resource type="Texture2D" uid="uid://bpnl3bw6a77nn" path="res://assets/player/player.png" id="1_cpkl0"]
+[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_dv70o"]
+[ext_resource type="PackedScene" uid="uid://bcykat8yc1c55" path="res://scenes/player_cam/player_cam.tscn" id="3_uja3p"]
+[ext_resource type="PackedScene" uid="uid://b280f8n2gr6a4" path="res://scenes/shooter/shooter.tscn" id="4_2bvhm"]
+
+[sub_resource type="Animation" id="Animation_5yklw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [13]
+}
+
+[sub_resource type="Animation" id="Animation_endbl"]
+resource_name = "fall"
+length = 0.1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [18]
+}
+
+[sub_resource type="Animation" id="Animation_eq1em"]
+resource_name = "hurt"
+length = 0.2
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [11, 12]
+}
+
+[sub_resource type="Animation" id="Animation_wur5f"]
+resource_name = "idle"
+length = 0.4
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [13, 14, 15, 16]
+}
+
+[sub_resource type="Animation" id="Animation_3nri5"]
+resource_name = "jump"
+length = 0.1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [17]
+}
+
+[sub_resource type="Animation" id="Animation_8nelp"]
+resource_name = "run"
+length = 0.4
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2nxj1"]
+_data = {
+"RESET": SubResource("Animation_5yklw"),
+"fall": SubResource("Animation_endbl"),
+"hurt": SubResource("Animation_eq1em"),
+"idle": SubResource("Animation_wur5f"),
+"jump": SubResource("Animation_3nri5"),
+"run": SubResource("Animation_8nelp")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_awvrb"]
+size = Vector2(4.451, 17.1748)
+
+[node name="Player" type="CharacterBody2D" groups=["Moveables", "Player"]]
+collision_layer = 0
+script = ExtResource("1_dv70o")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_cpkl0")
+hframes = 19
+frame = 13
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_2nxj1")
+}
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 6.59621)
+scale = Vector2(2.24661, 0.978619)
+shape = SubResource("RectangleShape2D_awvrb")
+
+[node name="PlayerCam" parent="." instance=ExtResource("3_uja3p")]
+
+[node name="DebugLabel" type="Label" parent="."]
+offset_left = -22.0
+offset_top = -61.0
+offset_right = 237.0
+offset_bottom = 300.0
+scale = Vector2(0.11926, 0.118109)
+theme_override_font_sizes/font_size = 64
+text = "1adwa
+awdaw
+awda
+awdawd"
+
+[node name="Shooter" parent="." instance=ExtResource("4_2bvhm")]
+speed = 200.0
+lifespan = 3.0
+shoot_delay = 0.3
